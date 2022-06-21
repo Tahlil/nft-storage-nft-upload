@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Tahlil/nft-storage-nft-upload#readme",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "nft.storage": "^6.3.0"
   }
 }
