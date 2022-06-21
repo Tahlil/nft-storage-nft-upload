@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Tahlil/nft-storage-nft-upload#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "files-from-path": "^0.2.6",
     "nft.storage": "^6.3.0"
   }
 }
