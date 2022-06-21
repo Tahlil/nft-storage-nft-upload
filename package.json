@@ -1,0 +1,25 @@
+{
+  "name": "nftstorageupload",
+  "version": "1.0.0",
+  "description": "This node app would create metadata json file(s) from the NFT image files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tahlil/nft-storage-nft-upload.git"
+  },
+  "keywords": [
+    "NFT",
+    "nftStorage",
+    "json",
+    "metadata"
+  ],
+  "author": "Tahlil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tahlil/nft-storage-nft-upload/issues"
+  },
+  "homepage": "https://github.com/Tahlil/nft-storage-nft-upload#readme"
+}
