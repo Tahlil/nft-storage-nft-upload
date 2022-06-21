@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Tahlil/nft-storage-nft-upload/issues"
   },
-  "homepage": "https://github.com/Tahlil/nft-storage-nft-upload#readme"
+  "homepage": "https://github.com/Tahlil/nft-storage-nft-upload#readme",
+  "dependencies": {
+    "nft.storage": "^6.3.0"
+  }
 }
