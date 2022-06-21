@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { NFTStorage, File, Blob } = require('nft.storage')
+import { filesFromPath } from 'files-from-path'
 
 //requiring path and fs modules
 const path = require('path');
@@ -31,7 +32,10 @@ const nftNames = fs.readFileSync(nameDirectoryPath, 'utf-8').split("\r\n");
 const nftDescriptions = fs.readFileSync(descriptionDirectoryPath, 'utf-8').split("\r\n");
 let namesAndDescriptionsValid = areValidLists(nftNames, nftDescriptions);
 if (namesAndDescriptionsValid) {
-    
+    const files = filesFromPath(directoryPath, {
+        pathPrefix: path.resolve(directoryPath), // see the note about pathPrefix below
+        hidden: true, // use the default of false if you want to ignore files that start with '.'
+      })
 }
 else{
     console.log("Name and description lists are invalid.");
