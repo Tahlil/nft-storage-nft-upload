@@ -29,15 +29,16 @@ const descriptionDirectoryPath = path.join(__dirname, 'info', 'description.txt')
 
 const nftNames = fs.readFileSync(nameDirectoryPath, 'utf-8').split("\r\n");
 const nftDescriptions = fs.readFileSync(descriptionDirectoryPath, 'utf-8').split("\r\n");
-let namesAndDescriptionsValid = areValidLists(names, descriptions);
+let namesAndDescriptionsValid = areValidLists(nftNames, nftDescriptions);
 if (namesAndDescriptionsValid) {
-    fs.readdir(imageDirectoryPath, function (err, files) {
+    fs.readdir(imageDirectoryPath, async function (err, files) {
         if (err) {
             return console.log('Unable to scan directory: ' + err);
         } 
         console.log("File names:");
+        // const cid = await client.storeDirectory(files);
         files.forEach(function (file) {
-            // console.log(file); 
+            console.log(typeof file); 
         });
     }); 
 }
