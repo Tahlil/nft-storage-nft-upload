@@ -37,7 +37,11 @@ const areValidLists = (names, descriptions) => {
 
 }
 
-async function storeFilesInNFTStorage(files) {
+async function storeFilesInNFTStorage(directoryPath) {
+    const files = filesFromPath(directoryPath, {
+        pathPrefix: path.resolve(directoryPath), // see the note about pathPrefix below
+        hidden: true, // use the default of false if you want to ignore files that start with '.'
+    });
     console.log(`storing file(s) from ${path}`)
     const cid = await client.storeDirectory(files)
     console.log({ cid })
@@ -53,11 +57,8 @@ let namesAndDescriptionsValid = areValidLists(nftNames, nftDescriptions);
 let baseIpfsLink;
 async function main()
 {
-    const files = filesFromPath(imageDirectoryPath, {
-        pathPrefix: path.resolve(imageDirectoryPath), // see the note about pathPrefix below
-        hidden: true, // use the default of false if you want to ignore files that start with '.'
-    });
-    let cid = await storeFilesInNFTStorage(files);
+    
+    let cid = await storeFilesInNFTStorage(imageDirectoryPath);
     baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
 
     let index = 0;
@@ -75,11 +76,7 @@ async function main()
         index++;
     }
     const jsonDirectoryPath = path.join(__dirname, 'jsons');
-    const jsonFiles = filesFromPath(jsonDirectoryPath, {
-        pathPrefix: path.resolve(jsonDirectoryPath), // see the note about pathPrefix below
-        hidden: true, // use the default of false if you want to ignore files that start with '.'
-    });
-    cid = await storeFilesInNFTStorage(jsonFiles);
+    cid = await storeFilesInNFTStorage(jsonDirectoryPath);
     console.log("Metadata json File: " + cid);
 
 }
