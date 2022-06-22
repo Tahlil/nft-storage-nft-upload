@@ -53,16 +53,22 @@ async function main()
 
     // const status = await client.status(cid)
     // console.log(status)
-    // baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
+    let cid = "bafybeiajefzt7jg5pttoxbs7hnm2czmu7onplsngpcz7e6oe53ohiflodu";
+    baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
 
     let index = 0;
     for await (const f of files) {        
         const imageLink = baseIpfsLink + f['name'];
-        let metaDataObj = {
-            name: names[index],
-            description: descriptions[index],
+        const metaDataObj = {
+            name: nftNames[index],
+            description: nftDescriptions[index],
             image: imageLink
         }
+        const json = JSON.stringify(metaDataObj);
+        const jsonDirectoryPath = path.join(__dirname, 'jsons', (index+'.json'));
+
+        fs.writeFileSync(jsonDirectoryPath, json, 'utf8');
+        index++;
     }
 
 }
