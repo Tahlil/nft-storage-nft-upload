@@ -37,6 +37,16 @@ const areValidLists = (names, descriptions) => {
 
 }
 
+async function storeFilesInNFTStorage(files) {
+    console.log(`storing file(s) from ${path}`)
+    const cid = await client.storeDirectory(files)
+    console.log({ cid })
+
+    const status = await client.status(cid)
+    console.log(status)
+    return cid;
+}
+
 const nftNames = fs.readFileSync(nameDirectoryPath, 'utf-8').split("\r\n");
 const nftDescriptions = fs.readFileSync(descriptionDirectoryPath, 'utf-8').split("\r\n");
 let namesAndDescriptionsValid = areValidLists(nftNames, nftDescriptions);
@@ -47,13 +57,7 @@ async function main()
         pathPrefix: path.resolve(imageDirectoryPath), // see the note about pathPrefix below
         hidden: true, // use the default of false if you want to ignore files that start with '.'
     });
-    // console.log(`storing file(s) from ${path}`)
-    // const cid = await client.storeDirectory(files)
-    // console.log({ cid })
-
-    // const status = await client.status(cid)
-    // console.log(status)
-    let cid = "bafybeiajefzt7jg5pttoxbs7hnm2czmu7onplsngpcz7e6oe53ohiflodu";
+    
     baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
 
     let index = 0;
@@ -65,11 +69,16 @@ async function main()
             image: imageLink
         }
         const json = JSON.stringify(metaDataObj);
-        const jsonDirectoryPath = path.join(__dirname, 'jsons', (index+'.json'));
+        const jsonFilePath = path.join(__dirname, 'jsons', (index+'.json'));
 
-        fs.writeFileSync(jsonDirectoryPath, json, 'utf8');
+        fs.writeFileSync(jsonFilePath, json, 'utf8');
         index++;
     }
+    const jsonDirectoryPath = path.join(__dirname, 'jsons');
+    const jsonFiles = filesFromPath(jsonDirectoryPath, {
+        pathPrefix: path.resolve(jsonDirectoryPath), // see the note about pathPrefix below
+        hidden: true, // use the default of false if you want to ignore files that start with '.'
+    });
 
 }
 
