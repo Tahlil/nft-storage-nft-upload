@@ -57,7 +57,7 @@ async function main()
         pathPrefix: path.resolve(imageDirectoryPath), // see the note about pathPrefix below
         hidden: true, // use the default of false if you want to ignore files that start with '.'
     });
-    
+    let cid = await storeFilesInNFTStorage(files);
     baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
 
     let index = 0;
@@ -79,6 +79,8 @@ async function main()
         pathPrefix: path.resolve(jsonDirectoryPath), // see the note about pathPrefix below
         hidden: true, // use the default of false if you want to ignore files that start with '.'
     });
+    cid = await storeFilesInNFTStorage(jsonFiles);
+    console.log("Metadata json File: " + cid);
 
 }
 
