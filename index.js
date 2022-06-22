@@ -38,13 +38,24 @@ async function main()
         pathPrefix: path.resolve(imageDirectoryPath), // see the note about pathPrefix below
         hidden: true, // use the default of false if you want to ignore files that start with '.'
     });
-    console.log(`storing file(s) from ${path}`)
-    const cid = await client.storeDirectory(files)
-    console.log({ cid })
+    // console.log(`storing file(s) from ${path}`)
+    // const cid = await client.storeDirectory(files)
+    // console.log({ cid })
 
-    const status = await client.status(cid)
-    console.log(status)
-    baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link/';
+    // const status = await client.status(cid)
+    // console.log(status)
+    // baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
+
+    let index = 0;
+    for await (const f of files) {        
+        const imageLink = baseIpfsLink + f['name'];
+        let metaDataObj = {
+            name: names[index],
+            description: descriptions[index],
+            image: imageLink
+        }
+    }
+
 }
 
 if (namesAndDescriptionsValid) {
