@@ -31,6 +31,7 @@ const descriptionDirectoryPath = path.join(__dirname, 'info', 'description.txt')
 const nftNames = fs.readFileSync(nameDirectoryPath, 'utf-8').split("\r\n");
 const nftDescriptions = fs.readFileSync(descriptionDirectoryPath, 'utf-8').split("\r\n");
 let namesAndDescriptionsValid = areValidLists(nftNames, nftDescriptions);
+let baseIpfsLink;
 async function main()
 {
     const files = filesFromPath(imageDirectoryPath, {
@@ -43,6 +44,7 @@ async function main()
 
     const status = await client.status(cid)
     console.log(status)
+    baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link/';
 }
 
 if (namesAndDescriptionsValid) {
