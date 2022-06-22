@@ -37,6 +37,10 @@ const areValidLists = (names, descriptions) => {
 
 }
 
+function getCIDLink(cid) {
+    return 'https://' + cid + '.ipfs.nftstorage.link';
+}
+
 async function storeFilesInNFTStorage(directoryPath) {
     const files = filesFromPath(directoryPath, {
         pathPrefix: path.resolve(directoryPath), // see the note about pathPrefix below
@@ -59,7 +63,7 @@ async function main()
 {
     
     let cid = await storeFilesInNFTStorage(imageDirectoryPath);
-    baseIpfsLink = 'https://' + cid + '.ipfs.nftstorage.link';
+    baseIpfsLink = getCIDLink(cid);
 
     let index = 0;
     for await (const f of files) {        
@@ -77,7 +81,7 @@ async function main()
     }
     const jsonDirectoryPath = path.join(__dirname, 'jsons');
     cid = await storeFilesInNFTStorage(jsonDirectoryPath);
-    console.log("Metadata holding folder base CID: " + cid);
+    console.log("Metadata holding folder base CID: " + getCIDLink(cid));
 
 }
 
