@@ -81,7 +81,7 @@ async function main()
     }
     const jsonDirectoryPath = path.join(__dirname, 'jsons');
     cid = await storeFilesInNFTStorage(jsonDirectoryPath);
-    console.log("Metadata holding folder base CID: " + getCIDLink(cid));
+    console.log("Metadata holding folder base CID:\n" + getCIDLink(cid));
 
 }
 
