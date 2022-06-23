@@ -7,6 +7,12 @@ const path = require
 ('path');
 const fs = require('fs');
 
+function getFilesGenerator(directory){
+    return filesFromPath(directory, {
+        pathPrefix: path.resolve(directory), // see the note about pathPrefix below
+        hidden: true, // use the default of false if you want to ignore files that start with '.'
+    });
+}
 
 const nftStorageToken = process.env.NFT_STORAGE_TOKEN;
 const client = new NFTStorage({ token: nftStorageToken })
@@ -41,15 +47,8 @@ function getCIDLink(cid) {
     return 'https://' + cid + '.ipfs.nftstorage.link';
 }
 
-async function storeFilesInNFTStorage(directoryPath) {
-    const files = filesFromPath(directoryPath, {
-        pathPrefix: path.resolve(directoryPath), // see the note about pathPrefix below
-        hidden: true, // use the default of false if you want to ignore files that start with '.'
-    });
-    console.log(`storing file(s) from ${path}`)
+async function storeFilesInNFTStorage(files) {
     const cid = await client.storeDirectory(files)
-    console.log({ cid })
-
     const status = await client.status(cid)
     console.log(status)
     return cid;
@@ -58,17 +57,20 @@ async function storeFilesInNFTStorage(directoryPath) {
 const nftNames = fs.readFileSync(nameDirectoryPath, 'utf-8').split("\r\n");
 const nftDescriptions = fs.readFileSync(descriptionDirectoryPath, 'utf-8').split("\r\n");
 let namesAndDescriptionsValid = areValidLists(nftNames, nftDescriptions);
-let baseIpfsLink;
+let baseIpfsLink="image", files;
 async function main()
 {
-    
-    let cid = await storeFilesInNFTStorage(imageDirectoryPath);
+    const files = getFilesGenerator(imageDirectoryPath)
+    let cid = await storeFilesInNFTStorage(files);
     baseIpfsLink = getCIDLink(cid);
-
+    const imageFiles = getFilesGenerator(imageDirectoryPath);
+   
     let index = 0;
-    for await (const f of files) {        
+    for await (const f of imageFiles) {        
         const imageLink = baseIpfsLink + f['name'];
+        console.log("Image link: " + imageLink);
         const metaDataObj = {
+            id: index,
             name: nftNames[index],
             description: nftDescriptions[index],
             image: imageLink
@@ -80,7 +82,8 @@ async function main()
         index++;
     }
     const jsonDirectoryPath = path.join(__dirname, 'jsons');
-    cid = await storeFilesInNFTStorage(jsonDirectoryPath);
+    const jsonFiles = getFilesGenerator(jsonDirectoryPath);
+    cid = await storeFilesInNFTStorage(jsonFiles);
     console.log("Metadata holding folder base CID:\n" + getCIDLink(cid));
 
 }
